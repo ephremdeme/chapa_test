@@ -33,6 +33,8 @@ export const getCreditCardById = asyncHandler(
 
 export const storeCard = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
+    console.log(req.body);
+
     const { csv, expiry, card_number } = req.body;
     const apiKey = req.get("api_key");
     if (csv && expiry && card_number && apiKey) {
@@ -44,7 +46,7 @@ export const storeCard = asyncHandler(
       });
       res.status(response_status_codes.success).json({
         success: true,
-        messsage: "Successfully Logged In.",
+        messsage: "Successfully Inserted.",
         data: { card: card },
       });
     } else {
