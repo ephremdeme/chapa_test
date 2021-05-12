@@ -9,14 +9,12 @@ export const getAllCreditCards = asyncHandler(
     const apiKey = req.get("api_key");
 
     const allCards = await CreditCard.find({ API_KEY: apiKey });
-    res
-      .status(200)
-      .json({
-        success: true,
-        count: allCards.length,
-        data: allCards,
-        message: "Successfully deleted a card!",
-      });
+    res.status(200).json({
+      success: true,
+      count: allCards.length,
+      data: allCards,
+      message: "Successfully query all cards!",
+    });
   }
 );
 
@@ -34,7 +32,7 @@ export const getCreditCardById = asyncHandler(
       res.status(200).json({
         data: creditCard,
         success: true,
-        messsage: "Successfully Inserted.",
+        messsage: "Query completed successfully.",
       });
     }
   }
