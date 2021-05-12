@@ -5,6 +5,7 @@ import helmet from "helmet";
 import mongoose from "mongoose";
 import jwt from "express-jwt";
 import dotenv from "dotenv";
+import path from "path";
 
 import { CardRoutes } from "../routes/cardRoutes";
 import { UserRoutes } from "../routes/userRoutes";
@@ -35,7 +36,23 @@ class App {
     this.userRoutes.route(this.app);
     this.apiKeyRoutes.route(this.app);
     this.authRoutes.route(this.app);
-    this.errorRoutes.route(this.app);
+    this.app.get("/", (req, res) => {
+      const oo = path.join(
+        __dirname.substring(0, __dirname.length - 6),
+        "public/index.html"
+      );
+      res.sendFile(oo);
+    });
+
+    this.app.get("/about", (req, res) => {
+      res.send({
+        Author: "Ephrem Demelash",
+        Github: "github.com/ephremdeme",
+        Email: "demelashephrem@gmail.com",
+        LinkedIn: "linkedin.com/in/ephrem-demelash/",
+      });
+    });
+    // this.errorRoutes.route(this.app);
   }
 
   private config(): void {
@@ -46,6 +63,14 @@ class App {
     this.app.use(helmet());
     this.app.use(cors());
     this.app.use(express.json());
+
+    const oo = path.join(
+      __dirname.substring(0, __dirname.length - 6),
+      "public"
+    );
+    console.log(__dirname, oo);
+    this.app.use(express.static(oo));
+
     this.mongoSetup();
   }
 
