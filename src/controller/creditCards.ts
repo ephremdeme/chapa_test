@@ -11,7 +11,12 @@ export const getAllCreditCards = asyncHandler(
     const allCards = await CreditCard.find({ API_KEY: apiKey });
     res
       .status(200)
-      .json({ success: true, count: allCards.length, data: allCards });
+      .json({
+        success: true,
+        count: allCards.length,
+        data: allCards,
+        message: "Successfully deleted a card!",
+      });
   }
 );
 
@@ -26,7 +31,11 @@ export const getCreditCardById = asyncHandler(
     if (!creditCard) {
       next(new ErrorResponse("Failed Finding a Credit Card", 404));
     } else {
-      res.status(200).json({ success: true, data: creditCard });
+      res.status(200).json({
+        data: creditCard,
+        success: true,
+        messsage: "Successfully Inserted.",
+      });
     }
   }
 );
@@ -47,7 +56,7 @@ export const storeCard = asyncHandler(
       res.status(response_status_codes.success).json({
         success: true,
         messsage: "Successfully Inserted.",
-        data: { card: card },
+        data: card,
       });
     } else {
       next(
@@ -64,7 +73,7 @@ export const deleteCard = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     const apiKey = req.get("api_key");
 
-    const card = await CreditCard.findOne({
+    const card = await CreditCard.findOneAndDelete({
       _id: req.params.id,
       API_KEY: apiKey,
     });
